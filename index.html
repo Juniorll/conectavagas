@@ -1,0 +1,255 @@
+import React, { useState } from 'react';
+import { Play, Code, Heart, Share2, Monitor, Users, Hash, Database, Layout, Terminal } from 'lucide-react';
+
+// --- DADOS DOS PROJETOS (EDITAR AQUI) ---
+// Todos os projetos são variações do "Conecta Vagas Tech", personalizados pelos alunos.
+const INITIAL_PROJECTS = [
+  {
+    id: 1,
+    title: "Conecta Vagas: Edição Neon",
+    students: ["Ana Silva", "João Pedro"],
+    description: "Personalização visual completa com tema Neon. Implementaram sistema de favoritos (coração) que salva no LocalStorage e botão de exclusão de vagas.",
+    videoId: "LXb3EKWsInQ", // ID do vídeo do YouTube
+    tags: ["LocalStorage", "Favoritos", "Tema Neon"],
+    likes: 24
+  },
+  {
+    id: 2,
+    title: "Vagas Tech + Filtros Inteligentes",
+    students: ["Carlos Oliveira", "Fernanda Souza"],
+    description: "Foco na lógica: criaram filtros avançados para vagas Remotas/Presenciais e validação robusta no formulário de cadastro para impedir dados vazios.",
+    videoId: "pEulUgA21o8", 
+    tags: ["Filtros de Array", "Validação JS", "DOM"],
+    likes: 45
+  },
+  {
+    id: 3,
+    title: "Vagas Clean UI & Contadores",
+    students: ["Mariana Costa"],
+    description: "Interface minimalista e moderna. Adicionou um contador dinâmico que mostra quantas vagas estão cadastradas e feedback visual ao se candidatar.",
+    videoId: "bJzb-RuUcMU",
+    tags: ["UI Design", "Contador Dinâmico", "Feedback Visual"],
+    likes: 38
+  },
+  {
+    id: 4,
+    title: "Portal Vagas - Gestão Completa",
+    students: ["Lucas Santos", "Rafael Lima"],
+    description: "Implementação de botão para remover cards individualmente e ordenação alfabética das vagas cadastradas.",
+    videoId: "PkZNo7MFNFg",
+    tags: ["Manipulação de Array", "Remoção de Itens", "Ordenação"],
+    likes: 19
+  }
+];
+
+const App = () => {
+  const [projects, setProjects] = useState(INITIAL_PROJECTS);
+  const [searchTerm, setSearchTerm] = useState("");
+
+  const handleLike = (id) => {
+    setProjects(projects.map(project => 
+      project.id === id ? { ...project, likes: project.likes + 1 } : project
+    ));
+  };
+
+  const filteredProjects = projects.filter(project => 
+    project.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    project.students.some(s => s.toLowerCase().includes(searchTerm.toLowerCase()))
+  );
+
+  return (
+    <div className="min-h-screen bg-slate-900 text-slate-100 font-sans selection:bg-blue-500 selection:text-white">
+      
+      {/* --- NAVBAR --- */}
+      <nav className="border-b border-slate-800 bg-slate-950/80 backdrop-blur-md sticky top-0 z-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex items-center justify-between h-20">
+            <div className="flex-shrink-0 flex items-center gap-4">
+              <div className="bg-white p-2 rounded-lg shadow-lg shadow-blue-500/10">
+                <img 
+                  src="https://www.sistemafiep.org.br/cursos-rapidos/cursos/dbimages/senai-azul_250345_img.png" 
+                  alt="Sistema Fiep SENAI" 
+                  className="h-8 w-auto object-contain"
+                />
+              </div>
+              <div className="hidden md:block w-px h-8 bg-slate-700 mx-2"></div>
+              <div className="hidden md:flex flex-col">
+                <span className="text-xs text-blue-400 font-bold tracking-widest uppercase">Showcase</span>
+                <span className="text-sm font-medium text-slate-300">Codificação Front-end</span>
+              </div>
+            </div>
+            
+            <div className="hidden md:block">
+              <div className="ml-10 flex items-baseline space-x-4">
+                <a href="#" className="bg-blue-600 text-white hover:bg-blue-700 px-4 py-2 rounded-md text-sm font-medium transition-colors">
+                  Início
+                </a>
+                <a href="#projetos" className="text-slate-300 hover:text-white hover:bg-slate-800 px-3 py-2 rounded-md text-sm font-medium transition-colors">
+                  Apresentações
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </nav>
+
+      {/* --- HERO SECTION --- */}
+      <div className="relative overflow-hidden bg-slate-900 pt-16 pb-20">
+        <div className="absolute top-0 left-0 w-full h-full overflow-hidden opacity-20 pointer-events-none">
+           <div className="absolute top-10 left-10 text-blue-500 transform -rotate-12"><Database size={64} /></div>
+           <div className="absolute bottom-20 right-20 text-blue-400 transform rotate-12"><Layout size={96} /></div>
+           <div className="absolute top-1/2 left-1/2 text-slate-700 transform -translate-x-1/2 -translate-y-1/2 text-9xl font-bold opacity-10">JS</div>
+        </div>
+
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center z-10">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-400 text-sm font-medium mb-6">
+            <span className="relative flex h-2 w-2">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
+              <span className="relative inline-flex rounded-full h-2 w-2 bg-blue-500"></span>
+            </span>
+            Projeto de Meio de Semestre
+          </div>
+          
+          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-white mb-4">
+            Desafio Prático <br className="hidden sm:block" />
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-300 font-mono mt-2 inline-block">
+              &lt;Conecta Vagas Tech&gt;
+            </span>
+          </h1>
+          
+          {/* Explicação do Projeto Base */}
+          <div className="max-w-4xl mx-auto bg-slate-800/50 backdrop-blur border border-slate-700 rounded-xl p-8 mb-8 mt-8 shadow-2xl">
+            <h3 className="text-blue-300 font-bold mb-4 flex items-center justify-center gap-2 text-lg uppercase tracking-wide">
+              <Terminal size={20} /> A Jornada do Código
+            </h3>
+            <p className="text-slate-300 text-lg leading-relaxed text-justify sm:text-center">
+              Durante as aulas de <span className="text-white font-semibold">Codificação para Front-end</span>, os alunos construíram esta aplicação web do zero, linha a linha, aprendendo na prática como tornar um layout responsivo e interativo.
+              <br className="my-3 block"/>
+              Neste <strong className="text-blue-400">projeto de meio de curso</strong>, o desafio final foi ir além: escolher e implementar melhorias técnicas, manipular o DOM com criatividade e, o mais importante, saber explicar a lógica por trás de cada funcionalidade criada.
+            </p>
+          </div>
+
+          <div className="mt-8 max-w-xl mx-auto">
+            <div className="relative group">
+              <div className="absolute -inset-0.5 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-lg blur opacity-25 group-hover:opacity-75 transition duration-200"></div>
+              <div className="relative">
+                <input
+                  type="text"
+                  placeholder="Buscar por aluno, melhoria ou projeto..."
+                  className="block w-full bg-slate-800 border border-slate-700 text-slate-200 py-4 px-5 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder-slate-500"
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                />
+                <div className="absolute inset-y-0 right-0 flex items-center pr-4 pointer-events-none">
+                  <Hash className="h-5 w-5 text-slate-500" />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* --- PROJECTS GRID --- */}
+      <div id="projetos" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-24">
+        <div className="flex items-center justify-between mb-8">
+          <h2 className="text-2xl font-bold text-white flex items-center gap-2">
+            <Play className="h-6 w-6 text-blue-500 fill-blue-500" />
+            Pitches dos Projetos
+          </h2>
+          <span className="text-slate-400 text-sm">
+            Mostrando {filteredProjects.length} entrega(s)
+          </span>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {filteredProjects.map((project) => (
+            <div key={project.id} className="bg-slate-800 rounded-xl overflow-hidden border border-slate-700 hover:border-blue-500/50 transition-all duration-300 hover:shadow-2xl hover:shadow-blue-900/20 group flex flex-col h-full">
+              
+              <div className="relative w-full aspect-video bg-black group-hover:brightness-110 transition-all">
+                <iframe 
+                  className="w-full h-full absolute top-0 left-0"
+                  src={`https://www.youtube.com/embed/${project.videoId}`} 
+                  title={project.title}
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                  allowFullScreen
+                ></iframe>
+              </div>
+
+              <div className="p-6 flex flex-col flex-grow">
+                <div className="flex justify-between items-start mb-2">
+                  <h3 className="text-xl font-bold text-white group-hover:text-blue-400 transition-colors">
+                    {project.title}
+                  </h3>
+                </div>
+
+                <div className="flex items-center gap-2 text-slate-400 text-sm mb-4">
+                  <Users size={16} />
+                  <span className="font-medium text-slate-300">{project.students.join(" & ")}</span>
+                </div>
+
+                <p className="text-slate-400 text-sm mb-6 flex-grow leading-relaxed">
+                  {project.description}
+                </p>
+
+                <div className="flex flex-wrap gap-2 mb-6">
+                  {project.tags.map((tag, idx) => (
+                    <span key={idx} className="bg-slate-900/80 text-blue-300 text-xs px-2.5 py-1 rounded border border-slate-700/50 font-medium">
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+
+                <div className="pt-4 border-t border-slate-700 flex items-center justify-between mt-auto">
+                  <button 
+                    onClick={() => handleLike(project.id)}
+                    className="flex items-center gap-2 text-slate-400 hover:text-pink-500 transition-colors group/like"
+                  >
+                    <Heart 
+                      size={20} 
+                      className={`transition-transform group-active/like:scale-75 ${project.likes > 0 ? 'fill-pink-500/20' : ''}`} 
+                    />
+                    <span className="font-medium">{project.likes}</span>
+                  </button>
+                  
+                  <button className="text-slate-400 hover:text-white transition-colors" title="Compartilhar">
+                    <Share2 size={20} />
+                  </button>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {filteredProjects.length === 0 && (
+          <div className="text-center py-20 bg-slate-800/50 rounded-2xl border border-dashed border-slate-700">
+            <Monitor className="mx-auto h-12 w-12 text-slate-600 mb-4" />
+            <h3 className="text-lg font-medium text-white">Nenhum projeto encontrado</h3>
+            <p className="text-slate-400">Tente buscar por aluno ou funcionalidade.</p>
+          </div>
+        )}
+      </div>
+
+      <footer className="bg-slate-950 border-t border-slate-800 py-12">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="md:flex md:items-center md:justify-between">
+            <div className="flex justify-center md:justify-start mb-6 md:mb-0">
+               <div className="flex items-center gap-3 opacity-80 hover:opacity-100 transition-opacity">
+                 <div className="bg-white p-1.5 rounded">
+                    <img src="https://www.sistemafiep.org.br/cursos-rapidos/cursos/dbimages/senai-azul_250345_img.png" alt="SENAI Small" className="h-6 w-auto" />
+                 </div>
+                 <span className="text-slate-400 text-sm font-mono">&lt;Fim do código /&gt;</span>
+               </div>
+            </div>
+            <div className="mt-8 md:mt-0">
+              <p className="text-center text-sm text-slate-500">
+                &copy; {new Date().getFullYear()} Sistema Fiep / SENAI. Disciplina de Codificação para Front-end.
+              </p>
+            </div>
+          </div>
+        </div>
+      </footer>
+    </div>
+  );
+};
+
+export default App;
