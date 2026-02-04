@@ -33,7 +33,7 @@
     <script type="text/babel" data-type="module">
         import React, { useState } from 'react';
         import { createRoot } from 'react-dom/client';
-        import { Play, Code, Heart, Share2, Monitor, Users, Hash, Database, Layout, Terminal } from 'lucide-react';
+        import { Play, Code, Monitor, Users, Hash, Database, Layout, Terminal } from 'lucide-react';
 
         // --- DADOS DOS PROJETOS ---
         const INITIAL_PROJECTS = [
@@ -43,8 +43,7 @@
             students: ["Ana Silva", "João Pedro"],
             description: "Personalização visual completa com tema Neon. Implementaram sistema de favoritos (coração) que salva no LocalStorage e botão de exclusão de vagas.",
             videoId: "LXb3EKWsInQ",
-            tags: ["LocalStorage", "Favoritos", "Tema Neon"],
-            likes: 24
+            tags: ["LocalStorage", "Favoritos", "Tema Neon"]
           },
           {
             id: 2,
@@ -52,8 +51,7 @@
             students: ["Carlos Oliveira", "Fernanda Souza"],
             description: "Foco na lógica: criaram filtros avançados para vagas Remotas/Presenciais e validação robusta no formulário de cadastro para impedir dados vazios.",
             videoId: "pEulUgA21o8", 
-            tags: ["Filtros de Array", "Validação JS", "DOM"],
-            likes: 45
+            tags: ["Filtros de Array", "Validação JS", "DOM"]
           },
           {
             id: 3,
@@ -61,8 +59,7 @@
             students: ["Mariana Costa"],
             description: "Interface minimalista e moderna. Adicionou um contador dinâmico que mostra quantas vagas estão cadastradas e feedback visual ao se candidatar.",
             videoId: "bJzb-RuUcMU",
-            tags: ["UI Design", "Contador Dinâmico", "Feedback Visual"],
-            likes: 38
+            tags: ["UI Design", "Contador Dinâmico", "Feedback Visual"]
           },
           {
             id: 4,
@@ -70,20 +67,13 @@
             students: ["Lucas Santos", "Rafael Lima"],
             description: "Implementação de botão para remover cards individualmente e ordenação alfabética das vagas cadastradas.",
             videoId: "PkZNo7MFNFg",
-            tags: ["Manipulação de Array", "Remoção de Itens", "Ordenação"],
-            likes: 19
+            tags: ["Manipulação de Array", "Remoção de Itens", "Ordenação"]
           }
         ];
 
         const App = () => {
           const [projects, setProjects] = useState(INITIAL_PROJECTS);
           const [searchTerm, setSearchTerm] = useState("");
-
-          const handleLike = (id) => {
-            setProjects(projects.map(project => 
-              project.id === id ? { ...project, likes: project.likes + 1 } : project
-            ));
-          };
 
           const filteredProjects = projects.filter(project => 
             project.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -140,7 +130,7 @@
                       <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
                       <span className="relative inline-flex rounded-full h-2 w-2 bg-blue-500"></span>
                     </span>
-                    Projeto de Meio de Semestre
+                    Projeto de Meio da Unidade Curricular
                   </div>
                   
                   <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-white mb-4">
@@ -156,9 +146,9 @@
                       <Terminal size={20} /> A Jornada do Código
                     </h3>
                     <p className="text-slate-300 text-lg leading-relaxed text-justify sm:text-center">
-                      Durante as aulas de <span className="text-white font-semibold">Codificação para Front-end</span>, os alunos construíram esta aplicação web do zero, linha a linha, aprendendo na prática como tornar um layout responsivo e interativo.
+                      Durante as aulas da unidade curricular de <span className="text-white font-semibold">Codificação para Front-end</span>, os alunos construíram esta aplicação aprendendo na prática como tornar um layout responsivo e interativo.
                       <br className="my-3 block"/>
-                      Neste <strong className="text-blue-400">projeto de meio de curso</strong>, o desafio final foi ir além: escolher e implementar melhorias técnicas, manipular o DOM com criatividade e, o mais importante, saber explicar a lógica por trás de cada funcionalidade criada.
+                      Neste projeto, o desafio final foi escolher e implementar melhorias técnicas, manipular elementos da página (utilizando o DOM) e, o mais importante, saber explicar a lógica por trás de funcionalidades implementadas.
                     </p>
                   </div>
 
@@ -224,29 +214,12 @@
                           {project.description}
                         </p>
 
-                        <div className="flex flex-wrap gap-2 mb-6">
+                        <div className="flex flex-wrap gap-2">
                           {project.tags.map((tag, idx) => (
                             <span key={idx} className="bg-slate-900/80 text-blue-300 text-xs px-2.5 py-1 rounded border border-slate-700/50 font-medium">
                               {tag}
                             </span>
                           ))}
-                        </div>
-
-                        <div className="pt-4 border-t border-slate-700 flex items-center justify-between mt-auto">
-                          <button 
-                            onClick={() => handleLike(project.id)}
-                            className="flex items-center gap-2 text-slate-400 hover:text-pink-500 transition-colors group/like"
-                          >
-                            <Heart 
-                              size={20} 
-                              className={`transition-transform group-active/like:scale-75 ${project.likes > 0 ? 'fill-pink-500/20' : ''}`} 
-                            />
-                            <span className="font-medium">{project.likes}</span>
-                          </button>
-                          
-                          <button className="text-slate-400 hover:text-white transition-colors" title="Compartilhar">
-                            <Share2 size={20} />
-                          </button>
                         </div>
                       </div>
                     </div>
